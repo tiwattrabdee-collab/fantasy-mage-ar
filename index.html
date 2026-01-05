@@ -1851,22 +1851,31 @@
         }
         
         function preloadImages() {
-            // Preload monster images
+            // Preload monster images with crossOrigin for GitHub Pages
             Object.values(monsterTypes).forEach(m => {
-                const img = new Image();
-                img.src = `assets/monsters/${m.image}`;
-                monsterImages[m.image] = img;
+                if (!monsterImages[m.image]) {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.src = `assets/monsters/${m.image}`;
+                    monsterImages[m.image] = img;
+                }
             });
             Object.values(bossTypes).forEach(m => {
-                const img = new Image();
-                img.src = `assets/monsters/${m.image}`;
-                monsterImages[m.image] = img;
+                if (!monsterImages[m.image]) {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.src = `assets/monsters/${m.image}`;
+                    monsterImages[m.image] = img;
+                }
             });
             // Preload staff images
             Object.values(staffData).forEach(s => {
-                const img = new Image();
-                img.src = `assets/weapons/${s.image}`;
-                staffImages[s.image] = img;
+                if (!staffImages[s.image]) {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.src = `assets/weapons/${s.image}`;
+                    staffImages[s.image] = img;
+                }
             });
         }
         
@@ -2259,7 +2268,7 @@
                 
                 // Draw monster
                 const img = monsterImages[monster.image];
-                if (img && img.complete) {
+                if (img && img.complete && img.naturalWidth > 0) {
                     // Bobbing animation
                     const bob = Math.sin(Date.now() / 200 + monster.id) * 5;
                     ctx.drawImage(img, screenX - size/2, screenY - size/2 + bob, size, size);
